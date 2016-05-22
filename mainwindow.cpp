@@ -39,6 +39,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this, &MainWindow::newScaleSettings, m_scaleCreator, &ScaleCreator::calculateScale);
     connect(m_scaleCreator, &ScaleCreator::stringScale, this, &MainWindow::textRecalulated);
+
+
+    recalculateScales();
 }
 
 MainWindow::~MainWindow()
@@ -57,5 +60,7 @@ void MainWindow::recalculateScales()
 
 void MainWindow::textRecalulated(ScaleCreator::Key key, ScaleCreator::Mode mode, QString text)
 {
-    ui->textScale->setText(text);
+    QString output = "Notes in the key of ";
+    output.append(m_scaleCreator->keyToString(key)).append(" ").append(m_scaleCreator->modeToString(mode)).append(":").append("\n\n").append(text);
+    ui->textScale->setText(output);
 }

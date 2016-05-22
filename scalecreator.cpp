@@ -9,7 +9,6 @@ ScaleCreator::ScaleCreator(QObject *parent) : QObject(parent)
 
 void ScaleCreator::calculateScale(ScaleCreator::Key key, ScaleCreator::Mode mode)
 {
-    qDebug() << key << keyToString(key);
     int *pattern = getPattern(mode);
     QString notes;
     for (int i = 0, j = key; i < 7; i++)
@@ -18,7 +17,6 @@ void ScaleCreator::calculateScale(ScaleCreator::Key key, ScaleCreator::Mode mode
         notes += "\n";
         int punk = pattern[i];
         j+=punk;
-        qDebug() << j << punk << key << keyToString(intToKey(j));
     }
     emit stringScale(key, mode, notes);
 }
