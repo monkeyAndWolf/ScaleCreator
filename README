@@ -1,0 +1,13 @@
+Really simple scale generator. Takes key and mode to generate
+a scale, the I, IV, and V chords, and the VI minor chord - so
+that ye may jam freely from a key and a mode.
+
+Music theory likely not perfect, and Tab Widget in the middle
+in case I decide to ever add muscial notation (using ABC Shot
+or abc.js).
+
+To build:
+
+Made using Qt, as a regular Qt project. Open in QtCreator, or
+build using qmake.
+
