@@ -63,4 +63,20 @@ void MainWindow::textRecalulated(ScaleCreator::Key key, ScaleCreator::Mode mode,
     QString output = "Notes in the key of ";
     output.append(m_scaleCreator->keyToString(key)).append(" ").append(m_scaleCreator->modeToString(mode)).append(":").append("\n\n").append(text);
     ui->textScale->setText(output);
+
+    QString chord1 = "1st:\n\n";
+    chord1.append(m_scaleCreator->getChord(1));
+    ui->chord1->setText(chord1);
+
+    QString chord2 = "4th:\n\n";
+    chord2.append(m_scaleCreator->getChord(4));
+    ui->chord2->setText(chord2);
+
+    QString chord3 = "5th:\n\n";
+    chord3.append(m_scaleCreator->getChord(5));
+    ui->chord3->setText(chord3);
+
+    QString minot6 = "Minor 6th:\n\n";
+    minot6.append(m_scaleCreator->getChord(6, true));
+    ui->minor6->setText(minot6);
 }

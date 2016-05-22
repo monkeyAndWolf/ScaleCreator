@@ -9,18 +9,35 @@ ScaleCreator::ScaleCreator(QObject *parent) : QObject(parent)
 
 void ScaleCreator::calculateScale(ScaleCreator::Key key, ScaleCreator::Mode mode)
 {
+    m_currentKey = key;
+    m_currentMode = mode;
+    m_currentScale.clear();
+
+    QString scaleToReturn;
     int *pattern = getPattern(mode);
-    QString notes;
     for (int i = 0, j = key; i < 7; i++)
     {
-        notes += keyToString(intToKey(j));
-        notes += "\n";
+        m_currentScale << keyToString(intToKey(j));
+        scaleToReturn += keyToString(intToKey(j));
+        scaleToReturn += "\n";
         int punk = pattern[i];
         j+=punk;
     }
-    emit stringScale(key, mode, notes);
+    emit stringScale(key, mode, scaleToReturn);
 }
 
+QStringList ScaleCreator::privateCalcScale(ScaleCreator::Key key, ScaleCreator::Mode mode)
+{
+    QStringList scale;
+    int *pattern = getPattern(mode);
+    for (int i = 0, j = key; i < 7; i++)
+    {
+        scale << keyToString(intToKey(j));
+        int punk = pattern[i];
+        j+=punk;
+    }
+    return scale;
+}
 
 ScaleCreator::Key ScaleCreator::intToKey(int key)
 {
@@ -134,5 +151,48 @@ QString ScaleCreator::modeToString(ScaleCreator::Mode mode)
         break;
     }
     return response;
+}
+
+int ScaleCreator::keepValueInKey(int klonger)
+{
+    while (klonger >= m_currentScale.length())
+        klonger -= m_currentScale.length();
+    return klonger;
+}
+
+QString ScaleCreator::getChord(int degree, bool minor)
+{
+    QString chord;
+    degree--;
+
+    if (degree > 7)
+    {
+        chord.append(QString::number(degree)).append("isnae a legal chord.");
+    }
+    else if (m_currentScale.length() == 0)
+    {
+        chord = "Like, set a mode and a key first plz";
+    }
+    else
+    {
+        QString first = m_currentScale[degree];
+        QString second;
+        QString third;
+        if (minor)
+        {
+            QStringList minorEquivalent = privateCalcScale(m_currentKey, ScaleCreator::Minor);
+            second = minorEquivalent[keepValueInKey(degree+2)];
+            third = minorEquivalent[keepValueInKey(degree+4)];
+            chord.append(first).append("\n").append(second).append("\n").append(third);
+        }
+        else
+        {
+            second = m_currentScale[keepValueInKey(degree+2)];
+            third = m_currentScale[keepValueInKey(degree+4)];
+            chord.append(first).append("\n").append(second).append("\n").append(third);
+        }
+    }
+
+    return chord;
 }
 

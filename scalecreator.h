@@ -40,12 +40,23 @@ public:
     QString keyToString(ScaleCreator::Key key);
     QString modeToString(ScaleCreator::Mode mode);
 
+    Q_INVOKABLE QString getChord(int degree, bool minor = false);
+
     int* getPattern(ScaleCreator::Mode mode);
 signals:
     void stringScale(ScaleCreator::Key key, ScaleCreator::Mode mode, QString text);
 
 public slots:
     void calculateScale(Key key, Mode mode);
+
+private:
+    QStringList         m_currentScale;
+    ScaleCreator::Key   m_currentKey;
+    ScaleCreator::Mode  m_currentMode;
+
+    int keepValueInKey(int klonger);
+    QStringList privateCalcScale(ScaleCreator::Key key, ScaleCreator::Mode mode);
+
 };
 
 #endif // SCALECREATOR_H
