@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, &MainWindow::newScaleSettings, m_scaleCreator, &ScaleCreator::calculateScale);
     connect(m_scaleCreator, &ScaleCreator::stringScale, this, &MainWindow::textRecalulated);
 
+    ui->tabWidget->setTabText(0, "Scale and Chords");
+    ui->tabWidget->removeTab(1);
 
     recalculateScales();
 }
